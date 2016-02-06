@@ -173,7 +173,7 @@
         //   player2Dist = player2Dist + dist;
         // }
 
-        $("#stats").html("Red Distance:" + player1Dist + "<br>Blue Distance:" + player2Dist + "<br>Time:" + time);
+        $("#stats").html("Red Distance: " + player1Dist + "<br>Blue Distance: " + player2Dist + "<br>Time: " + (time/1000) + " seconds");
       }
 
       socket.on("start", start);
