@@ -5,10 +5,9 @@ var io = require('socket.io')(http);
 var cities = require('./cities.json');
 
 var PORT = 80;
-var games = [];
+var games = {};
 
-var Game = function(id){
-  this.id = id;
+var Game = function(){
   this.loc1 = null;
   this.loc2 = null;
   this.player1 = null;
@@ -33,9 +32,7 @@ function newGameId(){
   while(retry){
     id = randomId(5);
     retry = false;
-    games.forEach(function(g){
-      if(g.id == id) retry = true;
-    });
+    if(id in games) retry = true;
   }
   return id;
 }
@@ -82,9 +79,10 @@ app.get('/reset', function(req, res) {
 io.on('connection', function(socket) {
   console.log("client connected");
   var game = null;
+  var playernum = 0;
   socket.on('new', function(){
-    game = new Game(newGameId());
-    games.push(game);
+    game = new Game();
+    games[newGameId()] = game;
     game.createtime = new Date();
     var city = cities["international"][Math.floor(Math.random()*(cities["international"]).length)];
     var radius = city["radius"];
@@ -96,15 +94,24 @@ io.on('connection', function(socket) {
     socket.emit('gameid', game.id);
   });
   socket.on('join', function(id){
-    games.forEach(function(g){
-      if(g.id == id){
-        if(g.player1 == null) g.player1 = socket;
-        else if(g.player2 == null) g.player2 = socket;
-        if(g.player1 != null && g.player2 != null) {
-          //TODO: START
-        }
+    game = games[id];
+    if(game != null){
+      if(game.player1 == null){
+        game.player1 = socket;
+        playernum = 1;
       }
-    });
+      else if(game.player2 == null){
+        game.player2 = socket;
+        playernum = 2;
+      }
+      else{
+        // fuck you, both spots have already been taken
+        return;
+      }
+      if(game.player1 != null && game.player2 != null){
+        // start the game
+      }
+    }
   });
 });
 
