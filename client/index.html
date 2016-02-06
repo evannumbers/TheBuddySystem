@@ -1,1 +1,87 @@
-This is the front page
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <!-- <link rel="icon" href="../../favicon.ico"> -->
+
+    <title>The Buddy System</title>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+    <!-- JQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+    <!-- Socket.io Client -->
+    <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+
+    <!-- Custom styles for this template -->
+    <link href="/style/default.css" rel="stylesheet">
+  </head>
+
+  <body>
+
+    <div class="site-wrapper">
+
+      <div class="site-wrapper-inner">
+
+        <div class="cover-container">
+
+          <div class="inner cover">
+            <h1 class="cover-heading">The Buddy System</h1>
+            <p class="lead">Lose yourself in The Buddy System.</p>
+            <p class="lead">
+              <a href="#" class="btn btn-lg btn-default" onclick="collapse('newgame');">New Game</a>
+              <a href="#" class="btn btn-lg btn-default" onclick="collapse('joingame');">Join Game</a>
+            </p>
+            <div id="newgame" class="panel panel-default collapse">
+              <div class="panel-body">
+                New Game
+              </div>
+            </div>
+            <div id="joingame" class="panel panel-default collapse">
+              <div class="panel-body">
+                Join Game
+              </div>
+            </div>
+          </div>
+
+          <div class="mastfoot">
+            <div class="inner">
+              <p>A project for Tartanhacks 2016.</p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+    <script>
+      $('#newgame').on('hidden.bs.collapse', function () {
+        $('#joingame').collapse('show');
+      });
+      $('#joingame').on('hidden.bs.collapse', function () {
+        $('#newgame').collapse('show');
+      });
+      function collapse(name){
+        if($('.collapse:not(#'+name+')').attr('aria-expanded')){
+          $('.collapse:not(#'+name+')').collapse('hide');
+        }
+        else{
+          $('.collapse#'+name).collapse('show');
+        }
+      }
+    </script>
+  </body>
+</html>

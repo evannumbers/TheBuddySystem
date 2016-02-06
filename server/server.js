@@ -5,7 +5,7 @@ var io = require('socket.io')(http);
 
 var PORT = 80;
 
-app.use('/style', express.static('/style'));
+app.use('/style', express.static('../client/style'));
 app.get('/', function(req, res) {
   res.sendFile('client/index.html', {'root': '../'});
 });
