@@ -1,1 +1,67 @@
-This is the game
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>The Buddy System</title>
+    <link rel="stylesheet" type="text/css" href="style/game.css">
+  </head>
+
+  <body>
+    <div id="waiting">
+      Waiting To Start...
+    </div>
+
+    <div id="win-state">
+      You won!<br>
+      <form action="reset" method="get">
+        <button type="submit">Back</button>
+      </form>
+    </div>
+
+    <div id="street-view"></div>
+
+    <!-- Include socket io -->
+    <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+
+    <script>
+      var socket = io();
+      var panorama;
+
+      /* Send the new location to the server */
+      function update_location() {
+        pos = panorama.getPosition();
+        socket.emit("position_change", {lat : pos.lat(), lng : pos.lng()});
+      }
+
+      /* Start the game and create the panorama */
+      function start(location) {
+        /* Hide the waiting information, show the street view */
+        $("waiting").hide();
+        $("street-view").show();
+
+        panorama = new google.maps.StreetViewPanorama(
+          document.getElementById('street-view'),
+          {
+            position: {lat: location.lat, lng: location.lng},
+            pov: {heading: 0, pitch: 0},
+            zoom: 1
+          });
+      }
+
+      /* The game was won. Reset. */
+      function stop() {
+        $("street-view").hide();
+        $("win-state").show();
+
+        // TODO: Any computation or statistics to show the player
+      }
+
+      socket.on("start", start);
+      socket.on("stop", stop);
+    </script>
+
+    <script async defer
+         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDl2SdR82boZTM1ATkRUxOteVqD17EcCq4&signed_in=true&callback=initialize">
+    </script>
+  </body>
+</html>
