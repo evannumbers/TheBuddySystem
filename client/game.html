@@ -41,10 +41,11 @@
           </div>
           <div class="modal-body">
             <div id="map" style="width: 500px; height: 400px"></div>
+            <div id="stats"></div>
           </div>
           <div class="modal-footer">
             <form action="reset" method="get">
-              <button type="submit" class="btn btn-default">Exit</button>
+              <button type="submit" class="btn btn-default">Play Again</button>
             </form>
           </div>
         </div>
@@ -144,7 +145,7 @@
             path: history1,
             geodesic: true,
             strokeColor: '#FF0000',
-            strokeOpacity: 1.0,
+            strokeOpacity: .5,
             strokeWeight: 10
           });
 
@@ -152,14 +153,27 @@
             path: history2,
             geodesic: true,
             strokeColor: '#0000FF',
-            strokeOpacity: 1.0,
+            strokeOpacity: .5,
             strokeWeight: 10
           });
 
         player1.setMap(map);
         player2.setMap(map);
 
-        // TODO: Any computation or statistics to show the player
+        player1Dist = 0;
+        player2Dist = 0;
+
+        // for (i = 0; i < history1.length - 1; i++) {
+        //   var dist = google.maps.geometry.spherical.computeDistanceBetween(history1[i], history1[i+1]);
+        //   player1Dist = player1Dist + dist;
+        // }
+
+        // for (i = 0; i < history2.length - 1; i++) {
+        //   var dist = google.maps.geometry.spherical.computeDistanceBetween(history2[i], history2[i+1]);
+        //   player2Dist = player2Dist + dist;
+        // }
+
+        $("#stats").html("Red Distance:" + player1Dist + "<br>Blue Distance:" + player2Dist + "<br>Time:" + time);
       }
 
       socket.on("start", start);

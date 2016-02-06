@@ -115,7 +115,7 @@ io.on('connection', function(socket) {
         game.player1 = socket;
         playernum = 1;
       }
-      else if(game.player2 == null){
+      else if(game.player2 == null) {
         game.player2 = socket;
         playernum = 2;
       }
@@ -124,7 +124,7 @@ io.on('connection', function(socket) {
         return;
       }
       if(game.player1 != null && game.player2 != null){
-        var search_size = 100;
+        var search_size = 1000;
         if(!game.started){
           game.player1.emit("start", game.loc1, search_size);
           game.player2.emit("start", game.loc2, search_size);
