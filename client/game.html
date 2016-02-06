@@ -72,6 +72,9 @@
 
       var ONE_COMPLETE = false;
       var marker = null;
+      var player1_marker = null;
+      var player2_marker = null;
+      var image = '/img/blacksquare.png';
 
       $('#myModal').modal({ show: false})
 
@@ -225,6 +228,16 @@
         function addLatLng1() {
           var path1 = player1_poly.getPath();
 
+          if (player1_marker === null) {
+            player1_marker = new google.maps.Marker({
+              position: history1[history1_index].loc,
+              map: map,
+              icon: image
+          });
+          } else {
+            player1_marker.setPosition(history1[history1_index].loc);
+          }
+
           path1.push(new google.maps.LatLng(history1[history1_index].loc));
 
           history1_index = history1_index + 1;
@@ -249,6 +262,16 @@
 
         function addLatLng2() {
           var path2 = player2_poly.getPath();
+
+          if (player2_marker === null) {
+            player2_marker = new google.maps.Marker({
+              position: history2[history2_index].loc,
+              map: map,
+              icon: image
+          });
+          } else {
+            player2_marker.setPosition(history2[history2_index].loc);
+          }
 
           path2.push(new google.maps.LatLng(history2[history2_index].loc));
 
