@@ -21,7 +21,6 @@
         <div class="cover-container">
           <div class="inner cover">
             <h1 id="gameid" class="cover-heading"></h1>
-            <p id="gameurl" class="lead"></p>
             <br>
             <p class="lead"> Waiting for another player to begin...</p>
           </div>
@@ -55,7 +54,6 @@
 
       var gameid = getUrlVars()['id'];
       $("h1#gameid").text("Game ID: "+gameid);
-      $("p#gameurl").text(window.location.href);
       socket.emit('join', gameid);
 
       /* Send the new location to the server */
