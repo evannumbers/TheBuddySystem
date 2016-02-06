@@ -52,23 +52,24 @@
               <a href="#" class="btn btn-lg btn-default" onclick="collapse('newgame');">New Game</a>
               <a href="#" class="btn btn-lg btn-default" onclick="collapse('joingame');">Join Game</a>
             </p>
-            <div id="newgame" class="panel panel-default collapse">
+            <div id="newgame" class="panel panel-default collapse" width="50%">
               <div class="panel-body">
-                New Game
+                Create a new game, then invite a friend.<br><br>
+                <a href="#" onclick="newGame()" class="btn btn-primary">Create Game</a>
               </div>
-                <button onclick="newGame()" type="button" class="btn btn-primary btn-lg btn-block">Create Game</button>
             </div>
             <div id="joingame" class="panel panel-default collapse">
               <div class="panel-body">
-                Join Game
+                Join an existing game.<br><br>
+                <form action="/game" method="get">
+                  <div class="input-group">
+                    <input name="id" type="text" class="form-control" aria-describedby="basic-addon1" placeholder="Game ID">
+                    <span class="input-group-btn">
+                      <button type="submit" class="btn btn-primary">Join Game</button>
+                    </span>
+                  </div><br>
+                </form>
               </div>
-              <form action="/game" method="get">
-                <div class="input-group">
-                  <span class="input-group-addon" id="basic-addon1">Game ID</span>
-                  <input name="id" type="text" class="form-control" aria-describedby="basic-addon1">
-                </div>
-                <button type="submit" class="btn btn-primary btn-lg btn-block">Start Game</button>
-              </form>
             </div>
           </div>
 
