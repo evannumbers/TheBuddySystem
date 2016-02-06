@@ -1,0 +1,14 @@
+{
+  "name": "the-buddy-system-server",
+  "version": "0.0.1",
+  "description": "The Buddy System Server",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/evannumbers/TheBuddySystem"
+  },
+  "dependencies": {
+    "express": "^4.13.4",
+    "socket.io": "^1.4.5"
+  }
+}
