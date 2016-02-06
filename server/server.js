@@ -82,7 +82,7 @@ io.on('connection', function(socket) {
   console.log("client connected");
   var game = null;
   socket.on('new', function(){
-    game = Game(newGameId());
+    game = new Game(newGameId());
     games.push(game);
     game.createtime = new Date();
     socket.emit('gameid', game.id);

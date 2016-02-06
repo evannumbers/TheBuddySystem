@@ -27,6 +27,18 @@
 
   <body>
 
+    <script>
+      var socket = io();
+
+      socket.on("gameid", function (game_id) {
+        window.location.assign("/game?id=" + game_id);
+      });
+
+      function newGame() {
+        socket.emit("new");
+      }
+    </script>
+
     <div class="site-wrapper">
 
       <div class="site-wrapper-inner">
@@ -44,11 +56,19 @@
               <div class="panel-body">
                 New Game
               </div>
+                <button onclick="newGame()" type="button" class="btn btn-primary btn-lg btn-block">Create Game</button>
             </div>
             <div id="joingame" class="panel panel-default collapse">
               <div class="panel-body">
                 Join Game
               </div>
+              <form action="/game" method="get">
+                <div class="input-group">
+                  <span class="input-group-addon" id="basic-addon1">Game ID</span>
+                  <input name="id" type="text" class="form-control" aria-describedby="basic-addon1">
+                </div>
+                <button type="submit" class="btn btn-primary btn-lg btn-block">Start Game</button>
+              </form>
             </div>
           </div>
 
