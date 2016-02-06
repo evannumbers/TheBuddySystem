@@ -71,6 +71,8 @@ function getNearbyPoint(lat, lng, meters) {
 }
 
 app.use('/style', express.static('../client/style'));
+app.use('/img', express.static('../client/img'));
+
 app.get('/', function(req, res) {
   res.sendFile('client/index.html', {'root': '../'});
 });
