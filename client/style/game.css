@@ -42,3 +42,7 @@ div#map{
 div.modal-footer{
   text-align:center;
 }
+
+#street-view text {
+    display: none;
+}
