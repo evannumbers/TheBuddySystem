@@ -14,9 +14,9 @@
     <div id="waiting">
       Waiting To Start...
     </div>
-
+    <div id="map"></div>
     <div id="win-state">
-      You won!<br>
+      <h1>You won!</h1>
       <form action="reset" method="get">
         <button type="submit">Back</button>
       </form>
@@ -28,6 +28,7 @@
       var socket = io();
       var panorama;
       var sv;
+      var map;
 
       function getUrlVars() {
         var vars = {};
@@ -75,10 +76,36 @@
       }
 
       /* The game was won. Reset. */
-      function stop(time) {
+      function stop(time, history1, history2) {
         $("#street-view").hide();
         $("#win-state").show();
+        $("#map").show();
         console.log("STOP");
+
+        map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 3,
+          center: {lat: 0, lng: -180},
+          mapTypeId: google.maps.MapTypeId.TERRAIN
+        });
+
+        var player1 = new google.maps.Polyline({
+            path: history1,
+            geodesic: true,
+            strokeColor: '#FF0000',
+            strokeOpacity: 1.0,
+            strokeWeight: 2
+          });
+
+        var player2 = new google.maps.Polyline({
+            path: history2,
+            geodesic: true,
+            strokeColor: '#0000FF',
+            strokeOpacity: 1.0,
+            strokeWeight: 2
+          });
+
+        player1.setMap(map);
+        player2.setMap(map);
 
         // TODO: Any computation or statistics to show the player
       }

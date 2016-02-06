@@ -12,3 +12,8 @@ html, body {
 #win-state {
   display: none;
 }
+
+#map {
+  height: 100%;
+  display: none;
+}
