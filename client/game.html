@@ -163,17 +163,29 @@
         player1Dist = 0;
         player2Dist = 0;
 
-        // for (i = 0; i < history1.length - 1; i++) {
-        //   var dist = google.maps.geometry.spherical.computeDistanceBetween(history1[i], history1[i+1]);
-        //   player1Dist = player1Dist + dist;
-        // }
+        function toLatLong(tup) {
+          return (new google.maps.LatLng(tup.lat, tup.lng));
+        }
 
-        // for (i = 0; i < history2.length - 1; i++) {
-        //   var dist = google.maps.geometry.spherical.computeDistanceBetween(history2[i], history2[i+1]);
-        //   player2Dist = player2Dist + dist;
-        // }
+        for (i = 0; i < (history1.length - 1); i++) {
+          var dist = google.maps.geometry.spherical.computeDistanceBetween(
+            toLatLong(history1[i]),
+            toLatLong(history1[i+1]));
+          player1Dist = player1Dist + dist;
+        }
 
-        $("#stats").html("Red Distance:" + player1Dist + "<br>Blue Distance:" + player2Dist + "<br>Time:" + time);
+        for (i = 0; i < (history2.length - 1); i++) {
+          var dist = google.maps.geometry.spherical.computeDistanceBetween(
+            toLatLong(history2[i]),
+            toLatLong(history2[i+1]));
+          player2Dist = player2Dist + dist;
+        }
+
+        function mToKm(m) {
+          return Math.floor(m) / 1000;
+        }
+
+        $("#stats").html("Red Distance: " + (mToKm(player1Dist)) + "<br>Blue Distance: " + (mToKm(player2Dist)) + "<br>Time: " + time / 1000);
       }
 
       socket.on("start", start);
