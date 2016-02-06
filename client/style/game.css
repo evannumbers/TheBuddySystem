@@ -11,9 +11,15 @@ html, body {
 
 #win-state {
   display: none;
+  height: 100%;
 }
 
 #map {
-  height: 100%;
+  height: 60%;
   display: none;
+}
+
+.modal-backdrop
+{
+    opacity:0.5 !important;
 }

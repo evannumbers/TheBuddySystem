@@ -3,23 +3,43 @@
   <head>
     <meta charset="utf-8">
     <title>The Buddy System</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="style/game.css">
 
     <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
     <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
     <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
   </head>
 
   <body>
     <div id="waiting">
       Waiting To Start...
     </div>
-    <div id="map"></div>
-    <div id="win-state">
-      <h1>You won!</h1>
-      <form action="reset" method="get">
-        <button type="submit">Back</button>
-      </form>
+    
+      <!-- Modal -->
+    <div class="modal fade" id="myModal" role="dialog">
+      <div class="modal-dialog">
+      
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">You and your buddy have reunited!</h4>
+          </div>
+          <div class="modal-body">
+            <div id="map" style="width: 500px; height: 400px"></div>
+          </div>
+          <div class="modal-footer">
+            <form action="reset" method="get">
+              <button type="submit" class="btn btn-default">Exit</button>
+            </form>
+          </div>
+        </div>
+        
+      </div>
     </div>
 
     <div id="street-view"></div>
@@ -29,6 +49,10 @@
       var panorama;
       var sv;
       var map;
+      var bounds = null;
+
+      $('#myModal').modal({ show: false})
+      
 
       function getUrlVars() {
         var vars = {};
@@ -77,26 +101,40 @@
 
       /* The game was won. Reset. */
       function stop(time, history1, history2) {
-        $("#street-view").hide();
-        $("#win-state").show();
+        // $("#street-view").hide();
         $("#map").show();
-        console.log("STOP");
+
+        var bounds = new google.maps.LatLngBounds();
+
+        for (i = 0; i < history1.length; i++) {
+          bounds.extend(new google.maps.LatLng(history1[i]));
+        }
+
+        for (i = 0; i < history2.length; i++) {
+          bounds.extend(new google.maps.LatLng(history2[i]));
+        }
 
         map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 3,
-          center: {lat: 0, lng: -180},
-          mapTypeId: google.maps.MapTypeId.TERRAIN
+          mapTypeId: google.maps.MapTypeId.ROADMAP
+        });
+        map.fitBounds(bounds);
+
+        $('#myModal').on('shown.bs.modal', function() {
+          var currentCenter = map.getCenter();  // Get current center before resizing
+          google.maps.event.trigger(map, "resize");
+          map.setCenter(currentCenter); // Re-set previous center
+          map.fitBounds(bounds);
         });
 
-        console.log(history1.length);
-        console.log(history2.length);
+        $('#myModal').modal('show')  
+        map.fitBounds(bounds);
 
         var player1 = new google.maps.Polyline({
             path: history1,
             geodesic: true,
             strokeColor: '#FF0000',
             strokeOpacity: 1.0,
-            strokeWeight: 2
+            strokeWeight: 10
           });
 
         var player2 = new google.maps.Polyline({
@@ -104,7 +142,7 @@
             geodesic: true,
             strokeColor: '#0000FF',
             strokeOpacity: 1.0,
-            strokeWeight: 2
+            strokeWeight: 10
           });
 
         player1.setMap(map);
