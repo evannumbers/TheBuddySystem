@@ -62,6 +62,13 @@
       var map;
       var bounds = null;
 
+      var player1_poly;
+      var player2_poly;
+      var history1_index = 0;
+      var history2_index = 0;
+      var REPLAY_TIME = 5000;
+      var REPLAY = null;
+
       $('#myModal').modal({ show: false})
 
 
@@ -135,13 +142,30 @@
         $("#map").show();
 
         var bounds = new google.maps.LatLngBounds();
+        //TODO Change if realtime
+        var timeout = REPLAY_TIME / history1.length;
 
-        for (i = 0; i < history1.length; i++) {
-          bounds.extend(new google.maps.LatLng(history1[i]));
+        console.log(history1);
+        console.log(history2);
+
+        var history1_clean = history1.filter(function (x) {
+          return (x && x !== "null" && x !== "undefined");
+        });
+        var history2_clean = history2.filter(function (x) {
+          return (x && x !== "null" && x !== "undefined");
+        });
+
+        console.log("HISTORY");
+        console.log(history1_clean);
+        console.log(history2_clean);
+
+
+        for (i = 0; i < history1_clean.length; i++) {
+          bounds.extend(new google.maps.LatLng(history1_clean[i]));
         }
 
-        for (i = 0; i < history2.length; i++) {
-          bounds.extend(new google.maps.LatLng(history2[i]));
+        for (i = 0; i < history2_clean.length; i++) {
+          bounds.extend(new google.maps.LatLng(history2_clean[i]));
         }
 
         map = new google.maps.Map(document.getElementById('map'), {
@@ -159,27 +183,50 @@
         $('#myModal').modal('show')
         map.fitBounds(bounds);
 
-        var player1 = new google.maps.Polyline({
-            path: history1,
-            geodesic: true,
-            strokeColor: '#FF0000',
-            strokeOpacity: .5,
-            strokeWeight: 10
-          });
+        player1_poly = new google.maps.Polyline({
+          strokeColor: '#FF0000',
+          strokeOpacity: 0.5,
+          strokeWeight: 8
+        });
+        player1_poly.setMap(map);
 
-        var player2 = new google.maps.Polyline({
-            path: history2,
-            geodesic: true,
-            strokeColor: '#0000FF',
-            strokeOpacity: .5,
-            strokeWeight: 10
-          });
+        player2_poly = new google.maps.Polyline({
+          strokeColor: '#0000FF',
+          strokeOpacity: 0.5,
+          strokeWeight: 8
+        });
+        player2_poly.setMap(map);
 
-        player1.setMap(map);
-        player2.setMap(map);
+        console.log("TIMEOUT");
+        console.log(timeout);
+        REPLAY = setTimeout(addLatLng, timeout);
+
+        function addLatLng() {
+          var path1 = player1_poly.getPath();
+          var path2 = player2_poly.getPath();
+
+          if ((history1_index >= history1.length) ||
+              (history2_index >= history2.length)) {
+            clearTimeout(REPLAY);
+          }
+
+          if (history1[history1_index] != null) {
+            path1.push(new google.maps.LatLng(history1[history1_index]));
+          }
+
+          if (history2[history2_index] != null) {
+            path2.push(new google.maps.LatLng(history2[history2_index]));
+          }
+
+          history1_index = history1_index + 1;
+          history2_index = history2_index + 1;
+
+          REPLAY = setTimeout(addLatLng, timeout);
+        }
+
 
         var marker = new google.maps.Marker({
-          position: history1[history1.length - 1],
+          position: history1_clean[history1_clean.length - 1],
           map: map,
           title: 'Finish'
         });
@@ -191,17 +238,17 @@
           return (new google.maps.LatLng(tup.lat, tup.lng));
         }
 
-        for (i = 0; i < (history1.length - 1); i++) {
+        for (i = 0; i < (history1_clean.length - 1); i++) {
           var dist = google.maps.geometry.spherical.computeDistanceBetween(
-            toLatLong(history1[i]),
-            toLatLong(history1[i+1]));
+            toLatLong(history1_clean[i]),
+            toLatLong(history1_clean[i+1]));
           player1Dist = player1Dist + dist;
         }
 
-        for (i = 0; i < (history2.length - 1); i++) {
+        for (i = 0; i < (history2_clean.length - 1); i++) {
           var dist = google.maps.geometry.spherical.computeDistanceBetween(
-            toLatLong(history2[i]),
-            toLatLong(history2[i+1]));
+            toLatLong(history2_clean[i]),
+            toLatLong(history2_clean[i+1]));
           player2Dist = player2Dist + dist;
         }
 

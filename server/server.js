@@ -149,11 +149,29 @@ io.on('connection', function(socket) {
       other_player = game.player2;
       game.loc1 = location;
       game.history1.push(location);
+      console.log("UPDATE 1");
+
+      if (game.history2.length > 0) {
+        game.history2.push(game.history2[game.history2.length - 1]);
+        console.log("2 NON EMPTY");
+      } else {
+        game.history2.push(null);
+        console.log("2 EMPTY");
+      }
     } else {
       other_player = game.player1;
       current_player = game.player2;
       game.loc2 = location;
       game.history2.push(location);
+      console.log("UPDATE 2");
+
+      if (game.history1.length > 0) {
+        game.history1.push(game.history1[game.history1.length - 1]);
+        console.log("1 NON EMPTY");
+      } else {
+        game.history1.push(null);
+        console.log("1 EMPTY");
+      }
     }
 
     x1 = game.loc1.lat;
