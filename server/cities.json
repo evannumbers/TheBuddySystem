@@ -35,7 +35,43 @@
       "name":"Frederick",
       "lat":39.414128,
       "lng":-77.410978 ,
-      "radius":2400
+      "radius":1200
+    },
+    {
+      "name":"Boston",
+      "lat":42.343049,
+      "lng":-71.071579,
+      "radius":3500
+    },
+    {
+      "name":"Miami",
+      "lat":25.777670,
+      "lng":-80.224559,
+      "radius":3200
+    },
+    {
+      "name":"Orlando",
+      "lat":28.531782,
+      "lng":-81.380433,
+      "radius":10000
+    },
+    {
+      "name":"Washington DC",
+      "lat":38.892753,
+      "lng":-77.030852,
+      "radius":2000
+    },
+    {
+      "name":"Las Vegas",
+      "lat":36.149318,
+      "lng":-115.155096,
+      "radius":8000
+    },
+    {
+      "name":"Philadelphia",
+      "lat":39.945259,
+      "lng":-75.169869,
+      "radius":3000
     }
   ],
   "international":
