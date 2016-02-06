@@ -6,7 +6,6 @@
     <link rel="stylesheet" type="text/css" href="style/game.css">
 
     <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
-    <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
     <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
     <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
   </head>
@@ -51,17 +50,17 @@
       /* Start the game and create the panorama */
       function start(location, radius) {
         /* Hide the waiting information, show the street view */
-        $("waiting").hide();
-        $("street-view").show();
+        $("#waiting").hide();
+        $("#street-view").show();
 
         sv = new google.maps.StreetViewService();
         panorama = new google.maps.StreetViewPanorama(document.getElementById('street-view'));
 
         sv.getPanorama(
-          {'location': location,
-            'preference': google.maps.StreetViewPreference.NEAREST,
-            'radius': radius,
-            'source': google.maps.StreetViewSource.OUTDOOR
+          {location: location,
+           preference: google.maps.StreetViewPreference.NEAREST,
+           radius: radius,
+           source: google.maps.StreetViewSource.OUTDOOR
           },
           function (data, status) {
             panorama.setPano(data.location.pano);
@@ -75,8 +74,8 @@
 
       /* The game was won. Reset. */
       function stop(time) {
-        $("street-view").hide();
-        $("win-state").show();
+        $("#street-view").hide();
+        $("#win-state").show();
 
         // TODO: Any computation or statistics to show the player
       }
@@ -86,7 +85,7 @@
     </script>
 
     <script async defer
-         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDl2SdR82boZTM1ATkRUxOteVqD17EcCq4&signed_in=true&callback">
+         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDl2SdR82boZTM1ATkRUxOteVqD17EcCq4&signed_in=true">
     </script>
   </body>
 </html>
