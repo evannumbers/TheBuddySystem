@@ -91,7 +91,7 @@ io.on('connection', function(socket) {
     var radius = city["radius"];
     var lat = city["lat"];
     var lng = city["lng"];
-    var dist = 500;
+    var dist = 50;
     game.loc1 = getRandomPoint(lat, lng, radius);
     game.loc2 = getNearbyPoint(game.loc1["lat"], game.loc1["lng"], dist);
     socket.emit('gameid', game.id);
@@ -139,7 +139,7 @@ io.on('connection', function(socket) {
     y2 = game.loc2.lng;
 
     dist = Math.sqrt(Math.pow((x1-x2),2) + Math.pow((y1-y2), 2));
-
+    console.log(dist);
     if (dist <= EPSILON) {
       var now = new Date();
       current_player.emit('stop', now-game.starttime);
