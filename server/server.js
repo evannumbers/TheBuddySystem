@@ -20,6 +20,7 @@ var Game = function(){
   this.history1 = [];
   this.history2 = [];
   this.started = false;
+  this.difficulty = null;
 }
 
 function randomId(n)
@@ -93,6 +94,7 @@ io.on('connection', function(socket) {
     game.id = newGameId();
     games[game.id] = game;
     game.createtime = new Date();
+    game.difficulty = prefs.difficulty;
     if(prefs.location == 'int'){
       var city = cities["international"][Math.floor(Math.random()*(cities["international"]).length)];
     }
@@ -126,13 +128,13 @@ io.on('connection', function(socket) {
       if(game.player1 != null && game.player2 != null){
         var search_size = 1000;
         if(!game.started){
-          game.player1.emit("start", game.loc1, search_size);
-          game.player2.emit("start", game.loc2, search_size);
+          game.player1.emit("start", game.loc1, search_size, game.difficulty);
+          game.player2.emit("start", game.loc2, search_size, game.difficulty);
           game.starttime = new Date();
           game.started = true;
         }
         else{
-          game['player'+playernum].emit("start", game['loc'+playernum], search_size);
+          game['player'+playernum].emit("start", game['loc'+playernum], search_size, game.difficulty);
         }
       }
     }

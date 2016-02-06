@@ -85,7 +85,7 @@
       }
 
       /* Start the game and create the panorama */
-      function start(location, radius) {
+      function start(location, radius, difficulty) {
         /* Hide the waiting information, show the street view */
         $("#waiting").hide();
         $("#street-view").show();
@@ -109,6 +109,24 @@
           });
 
         panorama.addListener('position_changed', update_location);
+        if (difficulty == "medium") {
+          panorama.setOptions({addressControl: false});
+        } else if (difficulty == "hard") {
+          panorama.setOptions({addressControl: false});
+          $("#street-view").find("text").hide();
+        }
+      }
+
+      function interpolate(point) {
+        ne = bounds.getNorthEast();
+        sw = bounds.getSouthWest();
+
+        left = sw.lng;
+        right = ne.lng;
+        top = ne.lat;
+        bot = sw.lat;
+
+        return {x: (point.lng - left)/width, y: (point.lat)}
       }
 
       /* The game was won. Reset. */
