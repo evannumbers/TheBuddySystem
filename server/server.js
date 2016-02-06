@@ -17,7 +17,8 @@ var Game = function(){
   this.player2 = null;
   this.starttime = null;
   this.createtime = null;
-  this.history = [];
+  this.history1 = [];
+  this.history2 = [];
   this.started = false;
 }
 
@@ -144,18 +145,18 @@ io.on('connection', function(socket) {
       current_player = game.player1;
       other_player = game.player2;
       game.loc1 = location;
+      game.history1.push(location);
     } else {
       other_player = game.player1;
       current_player = game.player2;
       game.loc2 = location;
+      game.history2.push(location);
     }
 
     x1 = game.loc1.lat;
     x2 = game.loc2.lat;
     y1 = game.loc1.lng;
     y2 = game.loc2.lng;
-
-    game.history.push([x1,y1,x2,y2]);
 
     dist = Math.sqrt(Math.pow((x1-x2),2) + Math.pow((y1-y2), 2));
     if (dist <= EPSILON) {
