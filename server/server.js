@@ -5,9 +5,11 @@ var io = require('socket.io')(http);
 var cities = require('./cities.json');
 
 var PORT = 80;
+var EPSILON = 0.001
 var games = {};
 
 var Game = function(){
+  this.id = null;
   this.loc1 = null;
   this.loc2 = null;
   this.player1 = null;
@@ -82,7 +84,8 @@ io.on('connection', function(socket) {
   var playernum = 0;
   socket.on('new', function(){
     game = new Game();
-    games[newGameId()] = game;
+    game.id = newGameId();
+    games[game.id] = game;
     game.createtime = new Date();
     var city = cities["international"][Math.floor(Math.random()*(cities["international"]).length)];
     var radius = city["radius"];
@@ -115,6 +118,33 @@ io.on('connection', function(socket) {
       }
     }
   });
+
+  socket.on('update', function(location) {
+    var current_player;
+    var other_player;
+
+    if (playernum == 1) {
+      current_player = game.player1;
+      other_player = game.player2;
+      game.loc1 = location;
+    } else {
+      other_player = game.player1;
+      current_player = game.player2;
+      game.loc2 = location;
+    }
+
+    x1 = game.loc1.lat;
+    x2 = game.loc2.lat;
+    y1 = game.loc1.lng;
+    y2 = game.loc2.lng;
+
+    dist = Math.sqrt(Math.pow((x1-x2),2) + Math.pow((y1-y2), 2));
+
+    if (dist <= EPSILON) {
+      current_player.emit('win');
+      other_player.emit('win');
+    }
+  })
 });
 
 http.listen(PORT, function() {
