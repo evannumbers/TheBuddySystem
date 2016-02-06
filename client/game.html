@@ -28,6 +28,7 @@
     <script>
       var socket = io();
       var panorama;
+      var sv;
 
       function getUrlVars() {
         var vars = {};
@@ -53,14 +54,15 @@
         $("waiting").hide();
         $("street-view").show();
 
+        sv = new google.maps.StreetViewService();
         panorama = new google.maps.StreetViewPanorama(document.getElementById('street-view'));
 
-        google.maps.getPanorama(\
-          google.maps.StreetViewLocationRequest(\
-            location,
-            google.maps.StreetViewPreference.NEAREST,
-            radius,
-            google.maps.StreetViewSource.OUTDOOR),
+        sv.getPanorama(
+          {'location': location,
+            'preference': google.maps.StreetViewPreference.NEAREST,
+            'radius': radius,
+            'source': google.maps.StreetViewSource.OUTDOOR
+          },
           function (data, status) {
             panorama.setPano(data.location.pano);
             panorama.setPov({
@@ -84,7 +86,7 @@
     </script>
 
     <script async defer
-         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDl2SdR82boZTM1ATkRUxOteVqD17EcCq4&signed_in=true&callback=initialize">
+         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDl2SdR82boZTM1ATkRUxOteVqD17EcCq4&signed_in=true&callback">
     </script>
   </body>
 </html>
