@@ -66,8 +66,12 @@
       var player2_poly;
       var history1_index = 0;
       var history2_index = 0;
-      var REPLAY_TIME = 5000;
-      var REPLAY = null;
+      var REPLAY_FACTOR = 12
+      var REPLAY1 = null;
+      var REPLAY2 = null;
+
+      var ONE_COMPLETE = false;
+      var marker = null;
 
       $('#myModal').modal({ show: false})
 
@@ -141,31 +145,38 @@
         // $("#street-view").hide();
         $("#map").show();
 
-        var bounds = new google.maps.LatLngBounds();
-        //TODO Change if realtime
-        var timeout = REPLAY_TIME / history1.length;
-
+        console.log("Before");
         console.log(history1);
         console.log(history2);
 
-        var history1_clean = history1.filter(function (x) {
-          return (x && x !== "null" && x !== "undefined");
-        });
-        var history2_clean = history2.filter(function (x) {
-          return (x && x !== "null" && x !== "undefined");
-        });
-
-        console.log("HISTORY");
-        console.log(history1_clean);
-        console.log(history2_clean);
-
-
-        for (i = 0; i < history1_clean.length; i++) {
-          bounds.extend(new google.maps.LatLng(history1_clean[i]));
+        for (i = 0; i < history1.length; i++) {
+          history1[i].timediff = (history1[i].timediff / time) * (time / REPLAY_FACTOR);
         }
 
-        for (i = 0; i < history2_clean.length; i++) {
-          bounds.extend(new google.maps.LatLng(history2_clean[i]));
+        for (i = 0; i < history2.length; i++) {
+          history2[i].timediff = (history2[i].timediff / time) * (time / REPLAY_FACTOR);
+        }
+
+        console.log("After");
+        console.log(history1);
+        console.log(history2);
+
+        var bounds = new google.maps.LatLngBounds();
+        //TODO Change if realtime
+
+        var history1_locs = history1.map(function (e, i, a) {
+          return e.loc;
+        });
+        var history2_locs = history2.map(function (e, i, a) {
+          return e.loc;
+        });
+
+        for (i = 0; i < history1_locs.length; i++) {
+          bounds.extend(new google.maps.LatLng(history1_locs[i]));
+        }
+
+        for (i = 0; i < history2_locs.length; i++) {
+          bounds.extend(new google.maps.LatLng(history2_locs[i]));
         }
 
         map = new google.maps.Map(document.getElementById('map'), {
@@ -196,40 +207,64 @@
           strokeWeight: 8
         });
         player2_poly.setMap(map);
-
-        console.log("TIMEOUT");
-        console.log(timeout);
-        REPLAY = setTimeout(addLatLng, timeout);
-
-        function addLatLng() {
-          var path1 = player1_poly.getPath();
-          var path2 = player2_poly.getPath();
-
-          if ((history1_index >= history1.length) ||
-              (history2_index >= history2.length)) {
-            clearTimeout(REPLAY);
-          }
-
-          if (history1[history1_index] != null) {
-            path1.push(new google.maps.LatLng(history1[history1_index]));
-          }
-
-          if (history2[history2_index] != null) {
-            path2.push(new google.maps.LatLng(history2[history2_index]));
-          }
-
-          history1_index = history1_index + 1;
-          history2_index = history2_index + 1;
-
-          REPLAY = setTimeout(addLatLng, timeout);
+        
+        if (history1.length > 0) {
+          REPLAY1 = setTimeout(addLatLng1, history1[history1_index].timediff);
         }
 
+         if (history2.length > 0) {
+          REPLAY2 = setTimeout(addLatLng2, history2[history2_index].timediff);
+        }
 
-        var marker = new google.maps.Marker({
-          position: history1_clean[history1_clean.length - 1],
-          map: map,
-          title: 'Finish'
-        });
+        function addLatLng1() {
+          var path1 = player1_poly.getPath();
+
+          path1.push(new google.maps.LatLng(history1[history1_index].loc));
+
+          history1_index = history1_index + 1;
+
+          if (history1_index >= history1.length) {
+            if (ONE_COMPLETE) {
+              console.log("MARKER TIME 1");
+              marker = new google.maps.Marker({
+                position: history1_locs[history1_locs.length - 1],
+                map: map,
+                title: 'Finish'
+              });
+            } else {
+              ONE_COMPLETE = true;
+            }
+            clearTimeout(REPLAY1);
+            return;
+          }
+
+          REPLAY1 = setTimeout(addLatLng1, history1[history1_index].timediff);
+        }
+
+        function addLatLng2() {
+          var path2 = player2_poly.getPath();
+
+          path2.push(new google.maps.LatLng(history2[history2_index].loc));
+
+          history2_index = history2_index + 1;
+
+          if (history2_index >= history2.length) {
+            if (ONE_COMPLETE) {
+              console.log("MARKER TIME 2");
+              marker = new google.maps.Marker({
+                position: history2_locs[history2_locs.length - 1],
+                map: map,
+                title: 'Finish'
+              });
+            } else {
+              ONE_COMPLETE = true;
+            }
+            clearTimeout(REPLAY2);
+            return;
+          }
+
+          REPLAY2 = setTimeout(addLatLng2, history2[history2_index].timediff);
+        }
 
         player1Dist = 0;
         player2Dist = 0;
@@ -238,17 +273,17 @@
           return (new google.maps.LatLng(tup.lat, tup.lng));
         }
 
-        for (i = 0; i < (history1_clean.length - 1); i++) {
+        for (i = 0; i < (history1_locs.length - 1); i++) {
           var dist = google.maps.geometry.spherical.computeDistanceBetween(
-            toLatLong(history1_clean[i]),
-            toLatLong(history1_clean[i+1]));
+            toLatLong(history1_locs[i]),
+            toLatLong(history1_locs[i+1]));
           player1Dist = player1Dist + dist;
         }
 
-        for (i = 0; i < (history2_clean.length - 1); i++) {
+        for (i = 0; i < (history2_locs.length - 1); i++) {
           var dist = google.maps.geometry.spherical.computeDistanceBetween(
-            toLatLong(history2_clean[i]),
-            toLatLong(history2_clean[i+1]));
+            toLatLong(history2_locs[i]),
+            toLatLong(history2_locs[i+1]));
           player2Dist = player2Dist + dist;
         }
 

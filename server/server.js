@@ -23,6 +23,12 @@ var Game = function(){
   this.difficulty = null;
 }
 
+var Update = function() {
+  this.loc = null;
+  this.timestamp = null;
+  this.timediff = null;
+}
+
 function randomId(n)
 {
   var result = "";
@@ -146,34 +152,32 @@ io.on('connection', function(socket) {
     var current_player;
     var other_player;
 
+    update = new Update();
+    update.timestamp = new Date();
+    update.loc = location;
+
     if (playernum == 1) {
       current_player = game.player1;
       other_player = game.player2;
       game.loc1 = location;
-      game.history1.push(location);
-      console.log("UPDATE 1");
 
-      if (game.history2.length > 0) {
-        game.history2.push(game.history2[game.history2.length - 1]);
-        console.log("2 NON EMPTY");
+      if (game.history1.length == 0) {
+        update.timediff = update.timestamp - game.starttime;
       } else {
-        game.history2.push(null);
-        console.log("2 EMPTY");
+        update.timediff = update.timestamp - game.history1[game.history1.length - 1].timestamp;
       }
+      game.history1.push(update);
     } else {
       other_player = game.player1;
       current_player = game.player2;
       game.loc2 = location;
-      game.history2.push(location);
-      console.log("UPDATE 2");
 
-      if (game.history1.length > 0) {
-        game.history1.push(game.history1[game.history1.length - 1]);
-        console.log("1 NON EMPTY");
+      if (game.history2.length == 0) {
+        update.timediff = update.timestamp - game.starttime;
       } else {
-        game.history1.push(null);
-        console.log("1 EMPTY");
+        update.timediff = update.timestamp - game.history2[game.history2.length - 1].timestamp;
       }
+      game.history2.push(update);
     }
 
     x1 = game.loc1.lat;
