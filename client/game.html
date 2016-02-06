@@ -48,17 +48,26 @@
       }
 
       /* Start the game and create the panorama */
-      function start(location) {
+      function start(location, radius) {
         /* Hide the waiting information, show the street view */
         $("waiting").hide();
         $("street-view").show();
 
-        panorama = new google.maps.StreetViewPanorama(
-          document.getElementById('street-view'),
-          {
-            position: {lat: location.lat, lng: location.lng},
-            pov: {heading: 0, pitch: 0},
-            zoom: 1
+        panorama = new google.maps.StreetViewPanorama(document.getElementById('street-view'));
+
+        google.maps.getPanorama(\
+          google.maps.StreetViewLocationRequest(\
+            location,
+            google.maps.StreetViewPreference.NEAREST,
+            radius,
+            google.maps.StreetViewSource.OUTDOOR),
+          function (data, status) {
+            panorama.setPano(data.location.pano);
+            panorama.setPov({
+              heading: 0,
+              pitch: 0
+            });
+            panorama.setVisible(true);
           });
       }
 
