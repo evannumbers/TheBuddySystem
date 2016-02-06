@@ -3,11 +3,19 @@
   <head>
     <meta charset="utf-8">
     <title>The Buddy System</title>
+    <link rel="stylesheet" type="text/css" href="style/default.css">
   </head>
 
   <body>
     <div id="waiting">
       Waiting To Start...
+    </div>
+
+    <div id="win-state">
+      You won!<br>
+      <form action="reset" method="get">
+        <button type="submit">Back</button>
+      </form>
     </div>
 
     <div id="street-view"></div>
@@ -27,8 +35,9 @@
 
       /* Start the game and create the panorama */
       function start(location) {
-        /* Hide the waiting information */
+        /* Hide the waiting information, show the street view */
         $("waiting").hide();
+        $("street-view").show();
 
         panorama = new google.maps.StreetViewPanorama(
           document.getElementById('street-view'),
@@ -41,7 +50,10 @@
 
       /* The game was won. Reset. */
       function stop() {
-        //TODO
+        $("street-view").hide();
+        $("win-state").show();
+
+        // TODO: Any computation or statistics to show the player
       }
 
       socket.on("start", start);

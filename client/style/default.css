@@ -6,4 +6,9 @@ html, body {
 
 #street-view {
   height: 100%;
+  display: none;
+}
+
+#win-state {
+  display: none;
 }
