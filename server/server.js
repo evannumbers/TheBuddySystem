@@ -86,6 +86,7 @@ io.on('connection', function(socket) {
   socket.on('new', function(prefs){
     // prefs includes prefs.difficulty (easy, medium hard)
     // and prefs.location (us, int)
+    console.log(prefs);
     game = new Game();
     game.id = newGameId();
     games[game.id] = game;

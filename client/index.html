@@ -35,9 +35,9 @@
       });
 
       function newGame() {
-        var loc = $('input[name=optloc]:checked').val();
-        var diff = $('input[name=optdiff]:checked').val();
-        prefs = {'location':loc, 'difficulty':diff};
+        var loc = $('input[name=optloc]:radio:checked').val();
+        var diff = $('input[name=optdiff]:radio:checked').val();
+        var prefs = {location:loc, difficulty:diff};
         socket.emit("new", prefs);
       }
     </script>
@@ -60,16 +60,16 @@
                 <div class="panel panel-default">
                   <div class="panel-heading">Location</div>
                   <div class="panel-body">
-                    <label class="radio-inline"><input type="radio" name="optloc" value="us" checked="true">United States</label>
-                    <label class="radio-inline"><input type="radio" name="optloc" value"int">International</label>
+                    <label class="radio-inline"><input type="radio" name="optloc" value="us"/>United States</label>
+                    <label class="radio-inline"><input type="radio" name="optloc" value="int"/>International</label>
                   </div>
                 </div>
                 <div class="panel panel-default">
                   <div class="panel-heading">Difficulty</div>
                   <div class="panel-body">
-                    <label class="radio-inline"><input type="radio" name="optdiff" value"easy">Easy</label>
-                    <label class="radio-inline"><input type="radio" name="optdiff" value="medium" checked="true">Medium</label>
-                    <label class="radio-inline"><input type="radio" name="optdiff" value"hard">Hard</label>
+                    <label class="radio-inline"><input type="radio" name="optdiff" value="easy"/>Easy</label>
+                    <label class="radio-inline"><input type="radio" name="optdiff" value="medium"/>Medium</label>
+                    <label class="radio-inline"><input type="radio" name="optdiff" value="hard"/>Hard</label>
                   </div>
                 </div>
                 <a href="#" onclick="newGame()" class="btn btn-primary">Create Game</a>
