@@ -14,6 +14,10 @@ app.get('/game', function(req, res) {
   res.sendFile('client/game.html', {'root': '../'});
 });
 
+app.get('/reset', function(req, res) {
+  res.redirect('/');
+});
+
 io.on('connection', function(socket) {
   console.log("client connected");
 });
