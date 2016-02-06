@@ -8,6 +8,7 @@ var PORT = 80;
 var games = {};
 
 var Game = function(){
+  this.id = null;
   this.loc1 = null;
   this.loc2 = null;
   this.player1 = null;
@@ -82,7 +83,8 @@ io.on('connection', function(socket) {
   var playernum = 0;
   socket.on('new', function(){
     game = new Game();
-    games[newGameId()] = game;
+    game.id = newGameId();
+    games[game.id] = game;
     game.createtime = new Date();
     var city = cities["international"][Math.floor(Math.random()*(cities["international"]).length)];
     var radius = city["radius"];
