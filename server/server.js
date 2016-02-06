@@ -90,7 +90,6 @@ io.on('connection', function(socket) {
     var lng = city["lng"];
     var dist = 500;
     game.loc1 = getRandomPoint(lat, lng, radius);
-    console.log(game.loc1);
     game.loc2 = getNearbyPoint(game.loc1["lat"], game.loc1["lng"], dist);
     socket.emit('gameid', game.id);
   });
@@ -112,7 +111,7 @@ io.on('connection', function(socket) {
       if(game.player1 != null && game.player2 != null){
         var search_size = 50;
         game.player1.emit("start", game.loc1, search_size);
-        game.player2.emit("start", game.loc2, searcH_size);
+        game.player2.emit("start", game.loc2, search_size);
       }
     }
   });
