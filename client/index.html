@@ -73,9 +73,9 @@
                 <div class="panel panel-default">
                   <div class="panel-heading">Difficulty</div>
                   <div class="panel-body">
-                    <label class="radio-inline"><input type="radio" name="optdiff" value="easy"/>Easy</label>
-                    <label class="radio-inline"><input type="radio" name="optdiff" value="medium" checked/>Medium</label>
-                    <label class="radio-inline"><input type="radio" name="optdiff" value="hard"/>Hard</label>
+                    <label class="radio-inline" data-toggle="tooltip" data-delay='{"show":"500", "hide":"0"}' title="Your buddy is just a stone's throw away!"><input type="radio"  name="optdiff" value="easy"/>Easy</label>
+                    <label class="radio-inline" data-toggle="tooltip" data-delay='{"show":"500", "hide":"0"}' title="Great for when you're ready to travel further afield."><input type="radio" name="optdiff" value="medium" checked/>Medium</label>
+                    <label class="radio-inline" data-toggle="tooltip" data-delay='{"show":"500", "hide":"0"}' title="Street labels are disabled. Expect a challenge."><input type="radio" name="optdiff" value="hard"/>Hard</label>
                   </div>
                 </div>
                 <a href="#" onclick="newGame()" class="btn btn-primary">Create Game</a>
@@ -130,6 +130,9 @@
           $('.collapse#'+name).collapse('show');
         }
       }
+      $(function () {
+        $('[data-toggle="tooltip"]').tooltip({container: 'body'})
+      })
     </script>
   </body>
 </html>
