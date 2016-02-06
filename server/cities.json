@@ -1,14 +1,67 @@
 {
+  "united_states":
+  [
+    {
+      "name":"Seattle",
+      "lat":47.618393,
+      "lng":-122.326511,
+      "radius":1800
+    },
+    {
+      "name":"Pittsburgh",
+      "lat":40.444739,
+      "lng":-79.971427,
+      "radius":1800
+    },
+    {
+      "name":"Manhattan",
+      "lat":40.748029,
+      "lng":-73.989939,
+      "radius":1600
+    },
+    {
+      "name":"Austin",
+      "lat":30.271554, 
+      "lng":-97.743223,
+      "radius":1600
+    },
+    {
+      "name":"San Francisco",
+      "lat":37.770841, 
+      "lng":-122.428539,
+      "radius":3200
+    }
+  ],
   "international":
   [   
     {
+      "name":"Paris",
       "lat":48.8567,
       "lng":2.3508,
       "radius":3200
     },
     {
+      "name":"Tel Aviv",
       "lat":32.072601, 
       "lng":34.783547,
+      "radius":1600
+    },
+    {
+      "name":"Copenhagen",
+      "lat":55.6761,
+      "lng":12.5683,
+      "radius":1600
+    },
+    {
+      "name":"Rome",
+      "lat":41.9000,
+      "lng":12.5000,
+      "radius":3200
+    },
+    {
+      "name":"Hong Kong",
+      "lat":22.316868,
+      "long":114.175932,
       "radius":1600
     }
   ]
