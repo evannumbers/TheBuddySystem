@@ -21,19 +21,25 @@
     },
     {
       "name":"Austin",
-      "lat":30.271554, 
+      "lat":30.271554,
       "lng":-97.743223,
       "radius":1600
     },
     {
       "name":"San Francisco",
-      "lat":37.770841, 
+      "lat":37.770841,
       "lng":-122.428539,
       "radius":3200
+    },
+    {
+      "name":"Frederick",
+      "lat":39.414128,
+      "lng":-77.410978 ,
+      "radius":2400
     }
   ],
   "international":
-  [   
+  [
     {
       "name":"Paris",
       "lat":48.8567,
@@ -42,7 +48,7 @@
     },
     {
       "name":"Tel Aviv",
-      "lat":32.072601, 
+      "lat":32.072601,
       "lng":34.783547,
       "radius":1600
     },
@@ -63,6 +69,30 @@
       "lat":22.316868,
       "long":114.175932,
       "radius":1600
+    },
+    {
+      "name":"Sydney",
+      "lat":-33.873544,
+      "long":151.211445,
+      "radius":1600
+    },
+    {
+      "name":"Seoul",
+      "lat":37.535131,
+      "long":126.986872,
+      "radius":4800
+    }
+    {
+      "name":"Rio de Janeiro",
+      "lat":-22.902133,
+      "long":-43.261611,
+      "radius":3000
+    }
+    {
+      "name":"London",
+      "lat":51.495699,
+      "long":-0.122880,
+      "radius":10000
     }
   ]
 }
