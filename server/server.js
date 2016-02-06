@@ -64,13 +64,15 @@ function getRandomPoint(lat, lng, meters) {
 function getNearbyPoint(lat, lng, meters) {
   var KILOSPERDEG = 111.2;
   var radius = meters / (KILOSPERDEG * 1000);
-  var angle = Math.PI*Math.random();
+  var angle = 2*Math.PI*Math.random();
   var new_lat = lat+radius*Math.cos(angle);
   var new_lng = lng+radius*Math.sin(angle);
   return {"lat":new_lat, "lng":new_lng};
 }
 
 app.use('/style', express.static('../client/style'));
+app.use('/img', express.static('../client/img'));
+
 app.get('/', function(req, res) {
   res.sendFile('client/index.html', {'root': '../'});
 });
