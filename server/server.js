@@ -39,6 +39,22 @@ function newGameId(){
   return id;
 }
 
+//Eff it, I'm not doing the actual ellipse math.
+function getRandomPoint(lat, lng, meters) {
+  var KILOSPERDEG = 111.2;
+  var radius = meters / (KILOSPERDEG * 1000);
+  var a = Math.random();
+  var b = Math.random();
+  if(b < a){
+    var temp = a;
+    a = b;
+    b = temp;
+  }
+  var new_lat = lat+(b*radius*Math.cos(2*Math.PI*a/b));
+  var new_lng = lng+(b*radius*Math.sin(2*Math.PI*a/b));
+  return {"lat":new_lat, "lng":new_lng};
+}
+
 app.use('/style', express.static('../client/style'));
 app.get('/', function(req, res) {
   res.sendFile('client/index.html', {'root': '../'});
