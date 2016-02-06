@@ -87,12 +87,11 @@ io.on('connection', function(socket) {
   socket.on('new', function(prefs){
     // prefs includes prefs.difficulty (easy, medium hard)
     // and prefs.location (us, int)
-    console.log(prefs);
     game = new Game();
     game.id = newGameId();
     games[game.id] = game;
     game.createtime = new Date();
-    if(pref.location == 'int'){
+    if(prefs.location == 'int'){
       var city = cities["international"][Math.floor(Math.random()*(cities["international"]).length)];
     }
     else{
@@ -152,13 +151,16 @@ io.on('connection', function(socket) {
     game.history.push([x1,y1,x2,y2]);
 
     dist = Math.sqrt(Math.pow((x1-x2),2) + Math.pow((y1-y2), 2));
-    console.log(dist);
     if (dist <= EPSILON) {
       var now = new Date();
       current_player.emit('stop', now-game.starttime);
       other_player.emit('stop', now-game.starttime);
     }
-  })
+  });
+
+  socket.on('getopengames', function(){
+    socket.emit('opengames', Object.keys(games));
+  });
 });
 
 http.listen(PORT, function() {

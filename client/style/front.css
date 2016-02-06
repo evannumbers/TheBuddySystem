@@ -171,3 +171,9 @@ body {
   margin-left: 25%;
   margin-right: 25%;
 }
+
+.ui-autocomplete{
+  color: #333;
+  text-shadow: 0 1px 3px rgba(0,0,0,.15);
+  text-align: left;
+}
