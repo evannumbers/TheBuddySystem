@@ -191,7 +191,7 @@
           return Math.floor(m) / 1000;
         }
 
-        $("#stats").html("Red Distance: " + (mToKm(player1Dist)) + "<br>Blue Distance: " + (mToKm(player2Dist)) + "<br>Time: " + (time/1000) + " seconds");
+        $("#stats").html("Red Distance: " + (mToKm(player1Dist)) + " km" + "<br>Blue Distance: " + (mToKm(player2Dist)) + " km" + "<br>Time: " + (time/1000) + " seconds");
       }
 
       socket.on("start", start);
