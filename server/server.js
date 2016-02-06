@@ -75,6 +75,7 @@ io.on('connection', function(socket) {
     game = Game(newGameId());
     games.push(game);
     game.createtime = new Date();
+    socket.emit('gameid', game.id);
   });
   socket.on('join', function(id){
     games.forEach(function(g){

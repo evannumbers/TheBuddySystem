@@ -29,6 +29,18 @@
       var socket = io();
       var panorama;
 
+      function getUrlVars() {
+        var vars = {};
+        var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi,
+        function(m,key,value) {
+          vars[key] = value;
+        });
+        return vars;
+      }
+
+      var gameid = getUrlVars()['id'];
+      socket.emit('join', gameid);
+
       /* Send the new location to the server */
       function update_location() {
         pos = panorama.getPosition();
