@@ -55,6 +55,16 @@ function getRandomPoint(lat, lng, meters) {
   return {"lat":new_lat, "lng":new_lng};
 }
 
+//Yes, I know it's actually not a circle.
+function getNearbyPoint(lat, lng, meters) {
+  var KILOSPERDEG = 111.2;
+  var radius = meters / (KILOSPERDEG * 1000);
+  var angle = Math.PI*Math.random();
+  var new_lat = lat+radius*Math.cos(angle);
+  var new_lng = lng+radius*Math.sin(angle);
+  return {"lat":new_lat, "lng":new_lng};
+}
+
 app.use('/style', express.static('../client/style'));
 app.get('/', function(req, res) {
   res.sendFile('client/index.html', {'root': '../'});
