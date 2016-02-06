@@ -5,6 +5,7 @@ var io = require('socket.io')(http);
 var cities = require('./cities.json');
 
 var PORT = 80;
+var EPSILON = 0.001
 var games = {};
 
 var Game = function(){
@@ -92,6 +93,7 @@ io.on('connection', function(socket) {
     var lng = city["lng"];
     var dist = 500;
     game.loc1 = getRandomPoint(lat, lng, radius);
+    console.log(game.loc1);
     game.loc2 = getNearbyPoint(game.loc1["lat"], game.loc1["lng"], dist);
     socket.emit('gameid', game.id);
   });
@@ -111,10 +113,39 @@ io.on('connection', function(socket) {
         return;
       }
       if(game.player1 != null && game.player2 != null){
-        // start the game
+        var search_size = 50;
+        game.player1.emit("start", game.loc1, search_size);
+        game.player2.emit("start", game.loc2, searcH_size);
       }
     }
   });
+
+  socket.on('update', function(location) {
+    var current_player;
+    var other_player;
+
+    if (playernum == 1) {
+      current_player = game.player1;
+      other_player = game.player2;
+      game.loc1 = location;
+    } else {
+      other_player = game.player1;
+      current_player = game.player2;
+      game.loc2 = location;
+    }
+
+    x1 = game.loc1.lat;
+    x2 = game.loc2.lat;
+    y1 = game.loc1.lng;
+    y2 = game.loc2.lng;
+
+    dist = Math.sqrt(Math.pow((x1-x2),2) + Math.pow((y1-y2), 2));
+
+    if (dist <= EPSILON) {
+      current_player.emit('win');
+      other_player.emit('win');
+    }
+  })
 });
 
 http.listen(PORT, function() {
