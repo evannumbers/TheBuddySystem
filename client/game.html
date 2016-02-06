@@ -3,21 +3,31 @@
   <head>
     <meta charset="utf-8">
     <title>The Buddy System</title>
+
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="style/game.css">
 
     <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
     <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
     <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
 
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" type="text/css" href="style/front.css">
+    <link rel="stylesheet" type="text/css" href="style/game.css">
   </head>
 
   <body>
-    <div id="waiting">
-      Waiting To Start...
+    <div id="waiting" class="site-wrapper">
+      <div class="site-wrapper-inner">
+        <div class="cover-container">
+          <div class="inner cover">
+            <h1 id="gameid" class="cover-heading"></h1>
+            <br>
+            <p class="lead"> Waiting for another player to begin...</p>
+          </div>
+        </div>
+      </div>
     </div>
     
       <!-- Modal -->
@@ -64,6 +74,7 @@
       }
 
       var gameid = getUrlVars()['id'];
+      $("h1#gameid").text("Game ID: "+gameid);
       socket.emit('join', gameid);
 
       /* Send the new location to the server */
