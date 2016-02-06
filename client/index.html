@@ -62,11 +62,13 @@
               <div class="panel-body">
                 Join Game
               </div>
-              <div class="input-group">
-                <span class="input-group-addon" id="basic-addon1">Game ID</span>
-                <input type="text" class="form-control" aria-describedby="basic-addon1">
-              </div>
-              <button type="button" class="btn btn-primary btn-lg btn-block">Start Game</button>
+              <form action="/game" method="get">
+                <div class="input-group">
+                  <span class="input-group-addon" id="basic-addon1">Game ID</span>
+                  <input name="id" type="text" class="form-control" aria-describedby="basic-addon1">
+                </div>
+                <button type="submit" class="btn btn-primary btn-lg btn-block">Start Game</button>
+              </form>
             </div>
           </div>
 
