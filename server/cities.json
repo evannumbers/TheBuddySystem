@@ -1,10 +1,15 @@
 {
-    "international":
-    [   
-        {
-            "lat":48.8567,
-            "long":2.3508,
-            "radius":3200
-        }
-    ]
+  "international":
+  [   
+    {
+      "lat":48.8567,
+      "lng":2.3508,
+      "radius":3200
+    },
+    {
+      "lat":32.072601, 
+      "lng":34.783547,
+      "radius":1600
+    }
+  ]
 }
