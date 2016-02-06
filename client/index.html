@@ -35,7 +35,10 @@
       });
 
       function newGame() {
-        socket.emit("new");
+        var loc = $('input[name=optloc]:checked').val();
+        var diff = $('input[name=optdiff]:checked').val();
+        prefs = {'location':loc, 'difficulty':diff};
+        socket.emit("new", prefs);
       }
     </script>
 
@@ -52,13 +55,27 @@
               <a href="#" class="btn btn-lg btn-default" onclick="collapse('newgame');">New Game</a>
               <a href="#" class="btn btn-lg btn-default" onclick="collapse('joingame');">Join Game</a>
             </p>
-            <div id="newgame" class="panel panel-default collapse">
+            <div id="newgame" class="panel-narrow panel panel-default collapse">
               <div class="panel-body">
-                Create a new game, then invite a friend.<br><br>
+                <div class="panel panel-default">
+                  <div class="panel-heading">Location</div>
+                  <div class="panel-body">
+                    <label class="radio-inline"><input type="radio" name="optloc" value="us" checked="true">United States</label>
+                    <label class="radio-inline"><input type="radio" name="optloc" value"int">International</label>
+                  </div>
+                </div>
+                <div class="panel panel-default">
+                  <div class="panel-heading">Difficulty</div>
+                  <div class="panel-body">
+                    <label class="radio-inline"><input type="radio" name="optdiff" value"easy">Easy</label>
+                    <label class="radio-inline"><input type="radio" name="optdiff" value="medium" checked="true">Medium</label>
+                    <label class="radio-inline"><input type="radio" name="optdiff" value"hard">Hard</label>
+                  </div>
+                </div>
                 <a href="#" onclick="newGame()" class="btn btn-primary">Create Game</a>
               </div>
             </div>
-            <div id="joingame" class="panel panel-default collapse">
+            <div id="joingame" class="panel-narrow panel panel-default collapse">
               <div class="panel-body">
                 Join an existing game.<br><br>
                 <form action="/game" method="get">

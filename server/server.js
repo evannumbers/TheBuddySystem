@@ -5,7 +5,7 @@ var io = require('socket.io')(http);
 var cities = require('./cities.json');
 
 var PORT = 80;
-var EPSILON = 0.001
+var EPSILON = 0
 var games = {};
 
 var Game = function(){
@@ -16,6 +16,7 @@ var Game = function(){
   this.player2 = null;
   this.starttime = null;
   this.createtime = null;
+  this.history = [];
 }
 
 function randomId(n)
@@ -82,7 +83,9 @@ io.on('connection', function(socket) {
   console.log("client connected");
   var game = null;
   var playernum = 0;
-  socket.on('new', function(){
+  socket.on('new', function(prefs){
+    // prefs includes prefs.difficulty (easy, medium hard)
+    // and prefs.location (us, int)
     game = new Game();
     game.id = newGameId();
     games[game.id] = game;
@@ -91,12 +94,13 @@ io.on('connection', function(socket) {
     var radius = city["radius"];
     var lat = city["lat"];
     var lng = city["lng"];
-    var dist = 50;
+    var dist = 100;
     game.loc1 = getRandomPoint(lat, lng, radius);
     game.loc2 = getNearbyPoint(game.loc1["lat"], game.loc1["lng"], dist);
     socket.emit('gameid', game.id);
   });
   socket.on('join', function(id){
+    id = id.toUpperCase();
     game = games[id];
     if(game != null){
       if(game.player1 == null){
@@ -137,6 +141,8 @@ io.on('connection', function(socket) {
     x2 = game.loc2.lat;
     y1 = game.loc1.lng;
     y2 = game.loc2.lng;
+
+    game.history.push([x1,y1,x2,y2]);
 
     dist = Math.sqrt(Math.pow((x1-x2),2) + Math.pow((y1-y2), 2));
     console.log(dist);
