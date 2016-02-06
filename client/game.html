@@ -44,7 +44,7 @@
       /* Send the new location to the server */
       function update_location() {
         pos = panorama.getPosition();
-        socket.emit("position_change", {lat : pos.lat(), lng : pos.lng()});
+        socket.emit("update", {lat : pos.lat(), lng : pos.lng()});
       }
 
       /* Start the game and create the panorama */
@@ -70,6 +70,8 @@
             });
             panorama.setVisible(true);
           });
+
+        panorama.addListener('position_changed', update_location);
       }
 
       /* The game was won. Reset. */
