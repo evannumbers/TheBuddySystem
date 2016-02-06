@@ -160,6 +160,12 @@
         player1.setMap(map);
         player2.setMap(map);
 
+        var marker = new google.maps.Marker({
+          position: history1[history1.length - 1],
+          map: map,
+          title: 'Finish'
+        });
+
         player1Dist = 0;
         player2Dist = 0;
 
