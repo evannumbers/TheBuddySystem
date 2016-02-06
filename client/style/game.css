@@ -23,3 +23,20 @@ html, body {
 {
     opacity:0.5 !important;
 }
+
+h4.modal-title{
+  color: #333;
+  text-shadow: 0 1px 3px rgba(0,0,0,.15);
+}
+
+div.modal-body{
+  text-align:center;
+}
+
+div#map{
+  margin:0 auto;
+}
+
+div.modal-footer{
+  text-align:center;
+}
