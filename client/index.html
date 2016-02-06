@@ -14,6 +14,8 @@
 
     <!-- JQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
@@ -32,6 +34,10 @@
 
       socket.on("gameid", function (game_id) {
         window.location.assign("/game?id=" + game_id);
+      });
+
+      socket.on('opengames', function(opengames){
+        $('#gameidtext').autocomplete({source:opengames, minLength:0});
       });
 
       function newGame() {
@@ -60,7 +66,7 @@
                 <div class="panel panel-default">
                   <div class="panel-heading">Location</div>
                   <div class="panel-body">
-                    <label class="radio-inline"><input type="radio" name="optloc" value="us"/>United States</label>
+                    <label class="radio-inline"><input type="radio" name="optloc" value="us" checked/>United States</label>
                     <label class="radio-inline"><input type="radio" name="optloc" value="int"/>International</label>
                   </div>
                 </div>
@@ -68,7 +74,7 @@
                   <div class="panel-heading">Difficulty</div>
                   <div class="panel-body">
                     <label class="radio-inline"><input type="radio" name="optdiff" value="easy"/>Easy</label>
-                    <label class="radio-inline"><input type="radio" name="optdiff" value="medium"/>Medium</label>
+                    <label class="radio-inline"><input type="radio" name="optdiff" value="medium" checked/>Medium</label>
                     <label class="radio-inline"><input type="radio" name="optdiff" value="hard"/>Hard</label>
                   </div>
                 </div>
@@ -80,7 +86,7 @@
                 Join an existing game.<br><br>
                 <form action="/game" method="get">
                   <div class="input-group">
-                    <input name="id" type="text" class="form-control" aria-describedby="basic-addon1" placeholder="Game ID">
+                    <input id="gameidtext" name="id" type="text" class="form-control" aria-describedby="basic-addon1" placeholder="Game ID" onfocus="$(this).autocomplete('search');">
                     <span class="input-group-btn">
                       <button type="submit" class="btn btn-primary">Join Game</button>
                     </span>
@@ -112,6 +118,10 @@
       $('#joingame').on('hidden.bs.collapse', function () {
         $('#newgame').collapse('show');
       });
+      $('#joingame').on('show.bs.collapse', function(){
+        socket.emit('getopengames');
+      });
+      var stuff = ['poo', 'apple', 'banana'];
       function collapse(name){
         if($('.collapse:not(#'+name+')').attr('aria-expanded')){
           $('.collapse:not(#'+name+')').collapse('hide');

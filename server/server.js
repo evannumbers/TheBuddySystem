@@ -6,6 +6,7 @@ var cities = require('./cities.json');
 
 var PORT = 80;
 var EPSILON = 0
+var DIST = {easy:75, medium:125, hard:250};
 var games = {};
 
 var Game = function(){
@@ -86,16 +87,20 @@ io.on('connection', function(socket) {
   socket.on('new', function(prefs){
     // prefs includes prefs.difficulty (easy, medium hard)
     // and prefs.location (us, int)
-    console.log(prefs);
     game = new Game();
     game.id = newGameId();
     games[game.id] = game;
     game.createtime = new Date();
-    var city = cities["international"][Math.floor(Math.random()*(cities["international"]).length)];
+    if(prefs.location == 'int'){
+      var city = cities["international"][Math.floor(Math.random()*(cities["international"]).length)];
+    }
+    else{
+      var city = cities["united_states"][Math.floor(Math.random()*(cities["united_states"]).length)];
+    }
     var radius = city["radius"];
     var lat = city["lat"];
     var lng = city["lng"];
-    var dist = 100;
+    var dist = DIST[prefs.difficulty];
     game.loc1 = getRandomPoint(lat, lng, radius);
     game.loc2 = getNearbyPoint(game.loc1["lat"], game.loc1["lng"], dist);
     socket.emit('gameid', game.id);
@@ -146,13 +151,16 @@ io.on('connection', function(socket) {
     game.history.push([x1,y1,x2,y2]);
 
     dist = Math.sqrt(Math.pow((x1-x2),2) + Math.pow((y1-y2), 2));
-    console.log(dist);
     if (dist <= EPSILON) {
       var now = new Date();
       current_player.emit('stop', now-game.starttime);
       other_player.emit('stop', now-game.starttime);
     }
-  })
+  });
+
+  socket.on('getopengames', function(){
+    socket.emit('opengames', Object.keys(games));
+  });
 });
 
 http.listen(PORT, function() {
