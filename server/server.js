@@ -161,8 +161,8 @@ io.on('connection', function(socket) {
     dist = Math.sqrt(Math.pow((x1-x2),2) + Math.pow((y1-y2), 2));
     if (dist <= EPSILON) {
       var now = new Date();
-      current_player.emit('stop', now-game.starttime);
-      other_player.emit('stop', now-game.starttime);
+      current_player.emit('stop', now-game.starttime, history1, history2);
+      other_player.emit('stop', now-game.starttime, history1, history2);
     }
   });
 
