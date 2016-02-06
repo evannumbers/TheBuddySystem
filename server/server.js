@@ -101,6 +101,7 @@ io.on('connection', function(socket) {
     game = new Game();
     game.id = newGameId();
     games[game.id] = game;
+    socket.broadcast.emit('opengames', Object.keys(games));
     game.createtime = new Date();
     game.difficulty = prefs.difficulty;
     if(prefs.location == 'int'){
