@@ -116,6 +116,9 @@ io.on('connection', function(socket) {
     var dist = DIST[prefs.difficulty];
     game.loc1 = getRandomPoint(lat, lng, radius);
     game.loc2 = getNearbyPoint(game.loc1["lat"], game.loc1["lng"], dist);
+    console.log(city["name"]);
+    console.log(game.loc1);
+    console.log(game.loc2);
     socket.emit('gameid', game.id);
   });
   socket.on('join', function(id){

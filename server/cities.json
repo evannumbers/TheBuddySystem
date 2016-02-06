@@ -67,31 +67,31 @@
     {
       "name":"Hong Kong",
       "lat":22.316868,
-      "long":114.175932,
+      "lng":114.175932,
       "radius":1600
     },
     {
       "name":"Sydney",
       "lat":-33.873544,
-      "long":151.211445,
+      "lng":151.211445,
       "radius":1600
     },
     {
       "name":"Seoul",
       "lat":37.535131,
-      "long":126.986872,
+      "lng":126.986872,
       "radius":4800
     },
     {
       "name":"Rio de Janeiro",
       "lat":-22.902133,
-      "long":-43.261611,
+      "lng":-43.261611,
       "radius":3000
     },
     {
       "name":"London",
       "lat":51.495699,
-      "long":-0.122880,
+      "lng":-0.122880,
       "radius":10000
     }
   ]
