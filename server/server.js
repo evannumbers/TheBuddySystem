@@ -2,6 +2,7 @@ var express = require('express');
 var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
+var cities = require('./cities.json');
 
 var PORT = 80;
 var games = [];
@@ -85,6 +86,13 @@ io.on('connection', function(socket) {
     game = new Game(newGameId());
     games.push(game);
     game.createtime = new Date();
+    var city = cities["international"][Math.floor(Math.random()*(cities["international"]).length)];
+    var radius = city["radius"];
+    var lat = city["lat"];
+    var lng = city["lng"];
+    var dist = 500;
+    game.loc1 = getRandomPoint(lat, lng, radius);
+    game.loc2 = getNearbyPoint(game.loc1["lat"], game.loc1["lng"], dist);
     socket.emit('gameid', game.id);
   });
   socket.on('join', function(id){
@@ -92,7 +100,9 @@ io.on('connection', function(socket) {
       if(g.id == id){
         if(g.player1 == null) g.player1 = socket;
         else if(g.player2 == null) g.player2 = socket;
-        //if(g.player1 != null && g.player2 != null) startGame();
+        if(g.player1 != null && g.player2 != null) {
+          //TODO: START
+        }
       }
     });
   });
