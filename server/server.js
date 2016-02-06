@@ -128,6 +128,7 @@ io.on('connection', function(socket) {
         if(!game.started){
           game.player1.emit("start", game.loc1, search_size);
           game.player2.emit("start", game.loc2, search_size);
+          game.starttime = new Date();
           game.started = true;
         }
         else{
